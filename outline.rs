@@ -11,14 +11,19 @@ use rand_chacha; // 0.9.0a
 //idk a byte, i should do more, but i dont know how much i need, and too much
 //is fucking way to hard to tell if it is bad. but better than not enough
 
-struct rng_pool {
-    p1: u8, //add another field that is a bool to signify what is empty and what is full
-    p2: u8,
-    p3: u8,
-    p4: u8,
-    p5: u8,
-}
-
+////this works so far but i can do stuff like create fuctions that
+////do most of the work instead of having to verbose in main
+///idk just old habits form asm nothing global
+ /* let mut pool: Vec<(u8, bool)> = vec![(1, true),
+        (2, false),
+        (3, false),
+        (4, false),
+        (5, false)];
+    
+    pool.push((6, true));
+    
+    println!("{:?}", pool);
+*/
 impl rng_pool {
     
     //create the pool/variable/space in memory
@@ -41,4 +46,37 @@ impl rng_pool {
         //pick a number 1 - 5 and use for
         //rng
     }
+}
+
+//its own thing tyring to refine stuff, just like fine wine or a nice data
+//i mean i could go one you would like that wouldnt you
+fn main() {
+    enum poolsizeoptions {
+        byte(u8),
+        double(u16),
+        quad(u32),
+        oct(u64),
+    }
+
+    struct randdata<pool, poolsizeoptions>{
+        poolsize: poolsizeoptions::byte,
+        rngpool: Vec<(pool, bool)>,
+    }
+    
+/*    impl randata {
+        fn initpools (numberofpools: u8, size: poolsize) -> Self{
+            for numberofpools {
+                rngpool.push((poolsize, true));
+            }
+        }
+        fn pullfromrngthread {
+            
+        }
+    }
+*/
+
+    let mut pool: randdata = randdata {
+        poolsize: 5u8, //i think i need to match but probably through an impl fn
+        rngpool: (3u8, true)
+    };
 }
