@@ -1,0 +1,59 @@
+use std::cmp::PartialOrd;
+use std::ops::Add;
+use std::convert::From;
+
+// Define an enum that can hold either a u8 or u32.
+enum MyEnum {
+    U8(u8),
+    U32(u32),
+}
+
+// Implement the necessary traits for the enum.
+impl PartialOrd for MyEnum {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        match (self, other) {
+            (MyEnum::U8(a), MyEnum::U8(b)) => a.partial_cmp(b),
+            (MyEnum::U32(a), MyEnum::U32(b)) => a.partial_cmp(b),
+            _ => None,
+        }
+    }
+}
+
+impl From<u8> for MyEnum {
+    fn from(value: u8) -> Self {
+        MyEnum::U8(value)
+    }
+}
+
+// A simple struct that holds a MyEnum instance.
+struct MyStruct<T> {
+    value: T,
+}
+
+// The simplified function using MyEnum as the type `T`
+fn test<T>(mut x: T)
+where
+    T: PartialOrd + From<u8> + Add<Output = T>, // We only need PartialOrd and Add traits now
+{
+    if x >= T::from(2) {
+        // We add 4 if the condition is met
+        x = x + T::from(4);
+    }
+    println!("{:?}", x);  // Print the value with debug formatting
+}
+
+fn main() {
+    // Create an instance of MyStruct with MyEnum::U8
+    let x = MyStruct {
+        value: MyEnum::U8(5),
+    };
+    // Pass the value inside the struct to the test function
+    test(x.value); // Should print U8(9), as 5 >= 2 and 5 + 4 is 9.
+
+    // Create an instance of MyStruct with MyEnum::U32
+    let y = MyStruct {
+        value: MyEnum::U32(8),
+    };
+    // Pass the value inside the struct to the test function
+    test(y.value); // Should print U32(12), as 8 >= 2 and 8 + 4 is 12.
+}
