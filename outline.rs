@@ -51,15 +51,15 @@ impl rng_pool {
 //its own thing tyring to refine stuff, just like fine wine or a nice data
 //i mean i could go one you would like that wouldnt you
 fn main() {
-    enum poolsizeoptions {
-        byte(u8),
-        double(u16),
-        quad(u32),
-        oct(u64),
+    enum Poolsizeoptions {
+        Byte(u8),
+        Double(u16),
+        Quad(u32),
+        Oct(u64),
     }
 
-    struct randdata<pool, poolsizeoptions>{
-        poolsize: poolsizeoptions::byte,
+    struct Randdata{
+        poolsize: Poolsizeoptions::byte,
         rngpool: Vec<(pool, bool)>,
     }
     
@@ -75,7 +75,7 @@ fn main() {
     }
 */
 
-    let mut pool: randdata = randdata {
+    let mut pool: Randdata = Randdata {
         poolsize: 5u8, //i think i need to match but probably through an impl fn
         rngpool: (3u8, true)
     };
